@@ -11,7 +11,7 @@ engine = pyttsx3.init()
 
 engine.getProperty('rate')  # getting details of current speaking rate
 engine.setProperty('rate', 180)  # change of speed
-engine.say('I am Jesus, What may I be of service for? if you want to quit, say quit')
+engine.say('I am Jesus, What may I be of service for?')
 engine.runAndWait()
 
 
@@ -45,8 +45,9 @@ def take_command():
 def Run_program():
     ask = take_command()
     with model.chat_session():
-        if (ask == "quit"):
+        if ("quit" in ask):
             quit()
+
         response1 = model.generate(prompt=ask, temp=0)
         talk(response1)
         print(response1)
