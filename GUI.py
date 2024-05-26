@@ -1,65 +1,42 @@
-from tkinter import ttk
 import tkinter as tk
 
-
-# from tkinter.ttk import *
-
-class Application(tk.Frame):
-    def __init__(self, master=None):
-        super().__init__(master)
-        self.master = master
-        self.pack()
-        self.create_widgets()
-
-    def button_clicked(self):
-        self.label.config(text="greet", font=('Arial', 100), fg="#000000")
-        self.label.pack(padx=10, pady=10)
-        self.label.place(relx=0.26, rely=0.03)
-        print("Button clicked!")
-        print("lable text", self.label.cget("text"))
-
-    def create_widgets(self):
-        #self.label = tk.Label(self)
-        self.label = tk.Label(root, text="Hello, World!", font=("Arial", 24))
-        self.label.pack(pady=20)
-        self.button = tk.Button(self)
-        self.button["text"] = "Click me"
-        self.button["command"] = self.button_clicked
-        # self.button.place(relx=0.26, rely=0.03)
-        #self.label.config(text="greet", font=('Arial', 100), fg="#000000")
-        #self.label.pack(padx=20, pady=20)
-        self.button.pack()
-
-
 root = tk.Tk()
-root.geometry("700x350")
-app = Application(master=root)
-# Create a label widget with the desired text
+root.geometry("700x700")
 
+def destroy_widget(widget):
+    widget.destroy()
+def exception():
+    label = tk.Label(root, text="Smth went wrong, click the button and speak again", font=("Times New Roman", 20))
+    label.pack()
+    root.after(3000, destroy_widget,label)
+
+def buttonclicked():
+    try:
+        import AI_ONE_TIME as AI
+        AI.Run_program()# i think it just blocks out the rest of the tkinter stuff from working here cuz i imported ai one time.
+
+        print_response = tk.Label(root, text=AI.response, font=("Times New Roman", 20))
+        print_response.pack
+        #print(print_response)
+        #print("hi")
+    except:
+        exception()
+
+
+
+
+def buttoncreate(text,x,y,coms):
+    button = tk.Button(root, text = text,height= 5, width=10, command = coms)
+    button.pack()
+    button.place(x=x, y=y)
+
+def quiter():
+    quit()
+
+
+buttoncreate("TALK", 200, 500, buttonclicked)
+buttoncreate("QUIT",400,500, quiter)
 root.update()
-app.mainloop()
-
-'''
-import customtkinter
-
-customtkinter.set_appearance_mode("light")
-customtkinter.set_default_color_theme("green")
-
-root = customtkinter.CTk()
-
-root.geometry("500x350")
-
-
-def button():
-    print("test")
-
-
-frame = customtkinter.CTkFrame(master=root)
-frame.pack(pady=20, padx=60, fill="both", expand=True)
-
-button1 = customtkinter.CTkButton(master=frame, text="Talk", command=button)
-button1.pack(pady=12, padx=10)
-
-
 root.mainloop()
-'''
+
+
